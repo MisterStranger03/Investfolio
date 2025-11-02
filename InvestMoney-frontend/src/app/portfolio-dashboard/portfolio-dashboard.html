@@ -1,0 +1,112 @@
+<div class="dashboard-container">
+  @if (!isLoading && rawPortfolio.length > 0) {
+    <div class="summary-cards">
+      <div class="summary-card">
+        <span class="label">Total Invested</span>
+        <span class="value">{{ totalInvested | currency:userCurrency:'symbol':'1.0-0' }}</span>
+      </div>
+      <div class="summary-card">
+        <span class="label">Current Value</span>
+        <span class="value">{{ totalCurrentValue | currency:userCurrency:'symbol':'1.0-0' }}</span>
+      </div>
+      <div class="summary-card" [ngClass]="{'profit': totalGainLoss >= 0, 'loss': totalGainLoss < 0}">
+        <span class="label">Overall Gain/Loss</span>
+        <span class="value">{{ totalGainLoss | currency:userCurrency:'symbol':'1.0-0' }}</span>
+      </div>
+      <div class="summary-card" [ngClass]="{'profit': overallGainPercent >= 0, 'loss': overallGainPercent < 0}">
+        <span class="label">Overall Return</span>
+        <span class="value">{{ overallGainPercent | percent:'1.2-2' }}</span>
+      </div>
+    </div>
+  }
+
+  <div class="dashboard-header">
+    <h2 class="dashboard-title">Your Holdings</h2>
+    <div class="dashboard-controls">
+      <div class="search-container">
+        <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+        <input type="text" [formControl]="searchControl" placeholder="Filter..." class="search-input">
+      </div>
+      <div class="sort-buttons">
+        <button class="sort-btn" (click)="setSort('currentValue')" [class.active]="currentSort === 'currentValue'">Value</button>
+        <button class="sort-btn" (click)="setSort('gainLoss')" [class.active]="currentSort === 'gainLoss'">Gain/Loss</button>
+        <button class="sort-btn" (click)="setSort('name')" [class.active]="currentSort === 'name'">Name</button>
+      </div>
+      <a routerLink="/sell" class="action-button">Sell Stock</a>
+    </div>
+  </div>
+
+  <div class="table-container">
+    <table class="portfolio-table">
+      <thead>
+        <tr>
+          <th class="expand-col"></th>
+          <th>Stock</th>
+          <th class="align-right">Quantity</th>
+          <th class="align-right">Avg. Buy Price</th>
+          <th class="align-right">Current Price</th>
+          <th class="align-right">Invested</th>
+          <th class="align-right">Current Value</th>
+          <th class="align-right">Total Gain/Loss</th>
+          <th class="align-right">1-Day Return</th>
+        </tr>
+      </thead>
+      <tbody>
+        @if (isLoading) {
+          <tr><td colspan="9" class="state-cell">Loading and calculating portfolio...</td></tr>
+        } @else if (rawPortfolio.length === 0) {
+          <tr><td colspan="9" class="state-cell"><h2>Your portfolio is empty.</h2><p>Click <a routerLink="/add">Add Stock</a> to get started.</p></td></tr>
+        } @else {
+          @for (stock of filteredAndSortedPortfolio; track stock._id) {
+            <tr class="main-row" (click)="toggleRow(stock)" [class.expanded]="stock.isExpanded">
+              <td class="expand-col">
+                <svg class="chevron" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/></svg>
+              </td>
+              <td data-label="Stock">
+                <div class="stock-name">{{stock.name}}</div>
+                <div class="stock-ticker">{{stock.ticker}}</div>
+              </td>
+              <td class="align-right" data-label="Quantity">{{ stock.quantity | number:'1.0-4' }}</td>
+              <td class="align-right" data-label="Avg. Buy Price">{{ stock.buyPrice | currency:userCurrency:'symbol':'1.2-2' }}</td>
+              <td class="align-right" data-label="Current Price">{{ stock.currentPrice ? (stock.currentPrice | currency:userCurrency:'symbol':'1.2-2') : 'N/A' }}</td>
+              <td class="align-right" data-label="Invested">{{ stock.investedAmount | currency:userCurrency:'symbol':'1.0-0' }}</td>
+              <td class="align-right" data-label="Current Value">{{ stock.currentValue ? (stock.currentValue | currency:userCurrency:'symbol':'1.0-0') : 'N/A' }}</td>
+              <td class="align-right" data-label="Total Gain/Loss" [ngClass]="{'profit': stock.gainLoss && stock.gainLoss >= 0, 'loss': stock.gainLoss && stock.gainLoss < 0}">
+                {{ stock.gainLoss ? (stock.gainLoss | currency:userCurrency:'symbol':'1.0-0') : 'N/A' }}
+                @if(stock.gainLossPercent) { <div class="percent-change">({{ stock.gainLossPercent | percent:'1.2-2' }})</div> }
+              </td>
+              <td class="align-right" data-label="1-Day Return" [ngClass]="{'profit': stock.dayChange && stock.dayChange >= 0, 'loss': stock.dayChange && stock.dayChange < 0}">
+                {{ stock.dayChange ? (stock.dayChange * stock.quantity | currency:userCurrency:'symbol':'1.0-0') : 'N/A' }}
+                @if(stock.dayChangePercent) { <div class="percent-change">({{ stock.dayChangePercent | percent:'1.2-2' }})</div> }
+              </td>
+            </tr>
+            
+            @if (stock.isExpanded) {
+              <tr class="sub-row">
+                <td colspan="9">
+                  <div class="sub-table-container">
+                    <table class="sub-table">
+                      <thead><tr><th>Purchase Date</th><th class="align-right">Quantity</th><th class="align-right">Buy Price</th><th>Actions</th></tr></thead>
+                      <tbody>
+                        @for (purchase of stock.individualPurchases; track purchase._id) {
+                          <tr>
+                            <td>{{ purchase.purchaseDate | date:'mediumDate' }}</td>
+                            <td class="align-right">{{ purchase.quantity | number:'1.0-4' }}</td>
+                            <td class="align-right">{{ purchase.buyPrice | currency:userCurrency:'symbol':'1.2-2' }}</td>
+                            <td><button (click)="deleteIndividualStock(purchase._id)" class="delete-btn">Delete</button></td>
+                          </tr>
+                        }
+                      </tbody>
+                    </table>
+                  </div>
+                </td>
+              </tr>
+            }
+          } @empty {
+            <tr><td colspan="9" class="state-cell"><h2>No assets match your filter.</h2></td></tr>
+          }
+        }
+      </tbody>
+    </table>
+  </div>
+</div>

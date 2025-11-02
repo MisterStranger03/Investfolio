@@ -1,0 +1,50 @@
+node_modules/
+dist/
+.env
+.DS_Store
+.vscode/
+coverage/
+npm-debug.log*
+yarn-error.log*
+.idea/
+*.log
+*.swp
+
+# Ignore build output
+build/
+out/
+.cache/
+.next/
+public/
+# Ignore system files
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+# Ignore dependency directories
+jspm_packages/
+.bower_components/
+# Ignore temporary files
+*.tmp
+*.temp
+*.bak
+*.old
+# Ignore IDE specific files
+*.sublime-project
+*.sublime-workspace
+*.code-workspace
+# Ignore test coverage reports
+.nyc_output/
+# Ignore local environment settings
+.local/env
+.local.settings.json
+# Ignore MacOS specific files
+.AppleDouble
+.LSOverride
+# Ignore Windows specific files
+$RECYCLE.BIN/
+# Ignore Linux specific files
+*~
+.nfs*
+# Ignore log files
+logs/
+*.log

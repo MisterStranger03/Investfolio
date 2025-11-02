@@ -1,0 +1,63 @@
+# Node
+node_modules/
+
+# Build / output
+dist/
+build/
+out-tsc/
+
+# Angular
+/.angular/
+/.angular/cache/
+
+# TypeScript incremental build info
+*.tsbuildinfo
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Dependency directories
+jspm_packages/
+
+# Coverage
+coverage/
+
+# Environment / secrets
+.env
+.env.*
+local.env
+
+# Firebase
+.firebase/
+firebase-debug.log
+
+# Service worker / PWA generated files
+ngsw.json
+
+# Editor directories and files
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+*.code-workspace
+
+# macOS
+.DS_Store
+._*
+
+# Windows
+Thumbs.db
+Desktop.ini
+
+# Temporary
+tmp/
+temp/
+.cache/
+
+# Misc
+reports/
+

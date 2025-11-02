@@ -1,0 +1,31 @@
+<div class="profile-container">
+  <div class="profile-form">
+    <h1 class="form-title">Your Profile</h1>
+    <p class="form-subtitle">Update your personal information and preferences.</p>
+    
+    <div class="profile-picture-section">
+      <img [src]="profileForm.get('imageUrl')?.value || '/assets/default-avatar.png'" alt="Profile Picture" class="profile-picture">
+      <input type="file" (change)="onFileChange($event)" #fileInput hidden>
+      <button (click)="fileInput.click()" class="change-picture-btn">Change Picture</button>
+    </div>
+
+    <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
+      <div class="form-field">
+        <label for="name">Full Name</label>
+        <input id="name" formControlName="name" placeholder="e.g., Anjali Sharma">
+      </div>
+
+      <div class="form-field">
+        <label for="currency">Default Currency</label>
+        <input id="currency" formControlName="defaultCurrency" placeholder="e.g., INR">
+        <small>This will be used for display on your dashboard.</small>
+      </div>
+      
+      <button type="submit" [disabled]="profileForm.invalid">Save Profile</button>
+      
+      @if (successMessage) {
+        <div class="success-message">{{ successMessage }}</div>
+      }
+    </form>
+  </div>
+</div>

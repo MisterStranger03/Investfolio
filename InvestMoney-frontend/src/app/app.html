@@ -1,0 +1,48 @@
+<header class="navbar">
+  <nav class="nav-container">
+   <a class="nav-brand" [routerLink]="authService.isAuthenticated() ? '/dashboard' : '/'">
+      <img src="assets/logo.svg" alt="MyPortfolio Logo" class="nav-logo">
+      <span class="brand-text">MyPortfolio</span>
+    </a>
+    
+    <div class="nav-links">
+      @if (authService.isAuthenticated()) {
+        <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Dashboard</a>
+        <a routerLink="/add" routerLinkActive="active">Add Stock</a>
+
+        <div class="profile-menu">
+          <button (click)="toggleDropdown()" class="profile-button">
+            @if (profileService.currentUserProfile()?.imageUrl) {
+              <img [src]="profileService.currentUserProfile()?.imageUrl" alt="Profile" class="profile-avatar">
+            } @else {
+              <svg class="profile-avatar-default" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 4c1.93 0 3.5 1.57 3.5 3.5S13.93 13 12 13s-3.5-1.57-3.5-3.5S10.07 6 12 6zm0 14c-2.03 0-4.43-.82-6.14-2.88a9.947 9.947 0 0112.28 0C16.43 19.18 14.03 20 12 20z"></path></svg>
+            }
+          </button>
+          
+          @if (isDropdownOpen) {
+            <div class="dropdown-content">
+              <div class="dropdown-header">
+                <span class="user-name">{{ profileService.currentUserProfile()?.name || 'Welcome' }}</span>
+                <span class="user-email">{{ authService.currentUser?.email }}</span>
+              </div>
+              <a routerLink="/profile" (click)="closeDropdown()">
+                <span>Profile Settings</span>
+              </a>
+              <a (click)="logout()">
+                <span>Logout</span>
+              </a>
+            </div>
+          }
+        </div>
+
+      } @else {
+        <a routerLink="/login" routerLinkActive="active">Login</a>
+        <a routerLink="/register" routerLinkActive="active">Register</a>
+      }
+    </div>
+  </nav>
+</header>
+
+<main class="main-content">
+  <router-outlet></router-outlet>
+</main>

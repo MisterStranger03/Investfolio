@@ -1,0 +1,33 @@
+<div class="form-container">
+  <form [formGroup]="stockForm" (ngSubmit)="onSubmit()" class="stock-form">
+    <h1 class="form-title">Add New Asset to Portfolio</h1>
+    
+    <div class="form-field">
+      <label for="name">Stock Name</label>
+      <input id="name" formControlName="name" placeholder="e.g., Reliance Industries">
+    </div>
+
+    <div class="form-field">
+      <label for="ticker">Ticker (with exchange prefix)</label>
+      <input id="ticker" formControlName="ticker" placeholder="e.g., NSE:RELIANCE or BOM:500325">
+    </div>
+
+    <div class="form-field">
+      <label for="quantity">Quantity</label>
+      <input id="quantity" type="number" formControlName="quantity" placeholder="e.g., 10">
+    </div>
+
+    <div class="form-field">
+      <label for="buyPrice">Buy Price (per share in ₹)</label>
+      <input id="buyPrice" type="number" formControlName="buyPrice" placeholder="e.g., 2850.50">
+    </div>
+    
+    <button type="submit" [disabled]="stockForm.invalid || isLoading">
+      {{ isLoading ? 'Saving...' : 'Save Asset' }}
+    </button>
+    
+    <div *ngIf="errorMessage" class="error-message">
+      {{ errorMessage }}
+    </div>
+  </form>
+</div>

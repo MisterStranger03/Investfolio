@@ -1,0 +1,28 @@
+<div class="form-container">
+  <form [formGroup]="sellForm" (ngSubmit)="onSubmit()" class="stock-form">
+    <h1 class="form-title">Sell an Asset</h1>
+    <p class="form-subtitle">Enter the details of the asset you have sold. The system will use the First-In, First-Out (FIFO) method to remove the oldest holdings first.</p>
+    
+    <div class="form-field">
+      <label for="ticker">Ticker (with exchange prefix)</label>
+      <input id="ticker" formControlName="ticker" placeholder="e.g., NSE:RELIANCE">
+    </div>
+
+    <div class="form-field">
+      <label for="quantity">Quantity to Sell</label>
+      <input id="quantity" type="number" formControlName="quantity" placeholder="e.g., 5">
+    </div>
+    
+    <button type="submit" [disabled]="sellForm.invalid || isLoading">
+      {{ isLoading ? 'Processing...' : 'Confirm Sale' }}
+    </button>
+    
+    @if (errorMessage) { <div class="error-message">{{ errorMessage }}</div> }
+    @if (successMessage) {
+      <div class="success-message">
+        {{ successMessage }}
+        <button type="button" (click)="goToDashboard()" class="link-button">View Dashboard</button>
+      </div>
+    }
+  </form>
+</div>
