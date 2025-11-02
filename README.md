@@ -200,8 +200,8 @@ Before you begin, make sure you have installed:
 
 Clone the project from your GitHub repository:
 ```bash
-    git clone https://github.com/yourusername/investfolio.git
-    cd myportfolio
+    git clone https://github.com/MisterStranger03/Investfolio.git
+    cd Investfolio
 ```
 ------------------------------------------------------------------------
 
