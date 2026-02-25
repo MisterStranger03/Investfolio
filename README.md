@@ -18,7 +18,7 @@ The **Next.js backend** reads, processes, and exposes that data through APIs for
 | Layer | Technology |
 |-------|-------------|
 | **Frontend** | Angular 20 (Standalone Components, SCSS, PWA) |
-| **Backend (API)** | Next.js 15 (App Router, REST APIs) |
+| **Backend (API)** | Next.js 14 (App Router, REST APIs) |
 | **Authentication** | Firebase Auth (Email/Password + Google OAuth) |
 | **Data Source** | Google Sheets + Google Finance API |
 | **Hosting** | Frontend: Vercel • Backend: Render |
