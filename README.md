@@ -18,7 +18,7 @@ The **Next.js backend** reads, processes, and exposes that data through APIs for
 | Layer | Technology |
 |-------|-------------|
 | **Frontend** | Angular 20 (Standalone Components, SCSS, PWA) |
-| **Backend (API)** | Next.js 15 (App Router, REST APIs) |
+| **Backend (API)** | Next.js 14 (App Router, REST APIs) |
 | **Authentication** | Firebase Auth (Email/Password + Google OAuth) |
 | **Data Source** | Google Sheets + Google Finance API |
 | **Hosting** | Frontend: Vercel • Backend: Render |
@@ -200,8 +200,8 @@ Before you begin, make sure you have installed:
 
 Clone the project from your GitHub repository:
 ```bash
-    git clone https://github.com/yourusername/investfolio.git
-    cd myportfolio
+    git clone https://github.com/MisterStranger03/Investfolio.git
+    cd Investfolio
 ```
 ------------------------------------------------------------------------
 
